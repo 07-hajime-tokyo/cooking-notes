@@ -2,7 +2,9 @@
 
 レシピと加熱時間をまとめた個人用メモ。エアフライヤー専用だったものを、料理全般を置ける形に作り変えました。
 
-公開URL: https://air-fryer-times.vercel.app/ （プロジェクト名は旧称のまま）
+公開URL: https://cooking-notes.vercel.app/
+
+旧 `air-fryer-times`（リポジトリ・Vercelプロジェクト・旧URL）から2026-08-09に改名。旧URL `air-fryer-times.vercel.app` は失効しています。
 
 ## 構成
 
