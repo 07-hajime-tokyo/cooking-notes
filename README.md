@@ -32,6 +32,7 @@
   genre: "発酵・仕込み",
   tool: "低温調理器",
   lead: "1行の説明",
+  source: { label: "出典名", url: "https://…", via: "Obsidian【188】" }, // 任意
   specs: [{ label: "温度", value: "60℃" }],
   ingredients: [{ item: "米麹（生）", amount: "100g", note: "任意" }],
   steps: [{ title: "見出し", body: "本文", meta: "任意のバッジ" }],

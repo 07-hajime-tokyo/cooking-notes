@@ -85,6 +85,8 @@ function recipeText(recipe) {
     recipe.lead,
     recipe.uses,
     recipe.doneCheck,
+    recipe.source?.label,
+    recipe.source?.via,
     ...recipe.specs.map((s) => `${s.label} ${s.value}`),
     ...recipe.ingredients.map((i) => `${i.item} ${i.amount} ${i.note ?? ""}`),
     ...recipe.steps.map((s) => `${s.title} ${s.body} ${s.meta ?? ""}`),
@@ -189,6 +191,8 @@ function recipeCard(recipe) {
     )
     .join("");
 
+  const source = sourceLine(recipe.source);
+
   return `
     <details class="recipe" data-recipe="${escapeHtml(recipe.id)}"${state.open[recipe.id] ? " open" : ""}>
       <summary>
@@ -257,8 +261,24 @@ function recipeCard(recipe) {
             }
           </div>
         </div>
+
+        ${source}
       </div>
     </details>`;
+}
+
+/* 出典。http/https以外のURLはリンクにしない。 */
+function sourceLine(source) {
+  if (!source?.label) return "";
+
+  const safe = /^https?:\/\//i.test(source.url ?? "") ? source.url : "";
+  const label = escapeHtml(source.label);
+  const body = safe
+    ? `<a href="${escapeHtml(safe)}" target="_blank" rel="noreferrer">${label}</a>`
+    : label;
+  const via = source.via ? ` ／ ${escapeHtml(source.via)}` : "";
+
+  return `<p class="source-line"><span>出典</span>${body}${via}</p>`;
 }
 
 function renderRecipes() {
