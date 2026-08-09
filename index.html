@@ -3,109 +3,137 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>エアフライヤー加熱時間メモ</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta name="description" content="レシピと加熱時間の個人用メモ。低温調理・エアフライヤー・仕込みものをまとめた早見サイト。" />
+    <meta name="theme-color" content="#2f6b4f" />
+    <title>料理メモ</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🍳</text></svg>" />
+    <link rel="stylesheet" href="./styles.css?v=20260809" />
   </head>
   <body>
+    <header class="topbar">
+      <div class="bar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">🍳</span>
+          <div class="brand-text">
+            <p class="eyebrow">COOKING NOTES</p>
+            <h1>料理メモ</h1>
+          </div>
+        </div>
+
+        <nav class="tabs" role="tablist" aria-label="表示切替">
+          <button
+            type="button"
+            role="tab"
+            id="tab-recipes"
+            data-tab="recipes"
+            aria-controls="panel-recipes"
+            aria-selected="true"
+          >
+            レシピ<span class="tab-count" data-count="recipes"></span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-table"
+            data-tab="table"
+            aria-controls="panel-table"
+            aria-selected="false"
+          >
+            加熱早見表<span class="tab-count" data-count="table"></span>
+          </button>
+        </nav>
+
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="醤油麹、鮭、60℃…"
+            aria-label="レシピと早見表を検索"
+            autocomplete="off"
+          />
+          <kbd class="search-hint" aria-hidden="true">/</kbd>
+        </div>
+      </div>
+    </header>
+
     <main class="app-shell">
-      <section class="hero" aria-labelledby="pageTitle">
-        <div class="hero-copy">
-          <p class="eyebrow">AIR FRYER TIME TABLE</p>
-          <h1 id="pageTitle">エアフライヤー加熱時間メモ</h1>
-          <p class="lead">
-            冷凍つまみ、魚、豚肉をさっと焼くための早見表。時間はまず短めで見て、足りなければ1から2分ずつ追加します。
-          </p>
-          <div class="safety-strip" aria-label="安全温度の目安">
-            <span><strong>魚介</strong>中心温度63℃目安</span>
-            <span><strong>鶏系</strong>砂肝は74℃</span>
-            <span><strong>豚肉</strong>63℃到達後3分休ませる</span>
+      <!-- レシピ ---------------------------------------------------- -->
+      <section id="panel-recipes" role="tabpanel" aria-labelledby="tab-recipes" data-panel="recipes">
+        <div class="filter-bar">
+          <div class="chip-row" id="genreChips" role="group" aria-label="ジャンル"></div>
+          <div class="bar-actions">
+            <span class="result-count" data-result="recipes"></span>
+            <button type="button" id="expandAll" class="ghost-btn">全部開く</button>
           </div>
         </div>
-        <div class="basket-visual" aria-hidden="true">
-          <div class="airfryer">
-            <div class="airfryer-top"></div>
-            <div class="airfryer-window">
-              <span class="chip potato"></span>
-              <span class="chip fish"></span>
-              <span class="chip pork"></span>
-              <span class="chip squid"></span>
-              <span class="chip gizzard"></span>
-            </div>
-            <div class="airfryer-dial"></div>
+
+        <div id="recipeList" class="recipe-list" aria-live="polite"></div>
+        <p class="empty" data-empty="recipes" hidden></p>
+      </section>
+
+      <!-- 早見表 ---------------------------------------------------- -->
+      <section id="panel-table" role="tabpanel" aria-labelledby="tab-table" data-panel="table" hidden>
+        <div class="safety-strip" aria-label="安全温度の目安">
+          <span><strong>魚介</strong>中心温度63℃目安</span>
+          <span><strong>鶏系</strong>砂肝は74℃</span>
+          <span><strong>豚肉</strong>63℃到達後3分休ませる</span>
+        </div>
+
+        <div class="filter-bar">
+          <div class="selects">
+            <select id="toolFilter" aria-label="器具">
+              <option value="all">器具：すべて</option>
+            </select>
+            <select id="categoryFilter" aria-label="種類">
+              <option value="all">種類：すべて</option>
+            </select>
+            <select id="stateFilter" aria-label="状態">
+              <option value="all">状態：すべて</option>
+              <option value="冷凍">冷凍</option>
+              <option value="冷蔵">冷蔵・非冷凍</option>
+            </select>
+          </div>
+          <div class="bar-actions">
+            <span class="result-count" data-result="table"></span>
           </div>
         </div>
-      </section>
 
-      <section class="controls" aria-label="表示条件">
-        <label>
-          食材検索
-          <input id="searchInput" type="search" placeholder="例: ポテト、鮭、砂肝" />
-        </label>
-        <label>
-          種類
-          <select id="categoryFilter">
-            <option value="all">すべて</option>
-          </select>
-        </label>
-        <label>
-          状態
-          <select id="stateFilter">
-            <option value="all">すべて</option>
-            <option value="冷凍">冷凍</option>
-            <option value="冷蔵">冷蔵・非冷凍</option>
-          </select>
-        </label>
-      </section>
-
-      <section class="quick-guide" aria-label="使い方">
-        <article>
-          <span>1</span>
-          <h2>まず予熱</h2>
-          <p>迷ったら200℃で2から3分。魚や豚は庫内を安定させると焼きムラが減ります。</p>
-        </article>
-        <article>
-          <span>2</span>
-          <h2>短めに始める</h2>
-          <p>細いもの、薄いもの、砂糖やタレつきは焦げやすいので下限時間から。</p>
-        </article>
-        <article>
-          <span>3</span>
-          <h2>中心温度を見る</h2>
-          <p>時間は機種差が出ます。肉と魚は食品温度計が一番確実です。</p>
-        </article>
-      </section>
-
-      <section>
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">TABLE</p>
-            <h2>食材別の目安</h2>
-          </div>
-          <p id="resultCount" class="result-count"></p>
-        </div>
         <div id="foodGrid" class="food-grid" aria-live="polite"></div>
+        <p class="empty" data-empty="table" hidden></p>
+
+        <details class="notes" data-store="notes-table">
+          <summary>共通メモ<span class="digest">予熱／短めに開始／中心温度</span></summary>
+          <ul>
+            <li>迷ったら200℃で2-3分予熱。庫内が安定すると焼きムラが減ります。</li>
+            <li>食材は重ねすぎない。冷凍品は霜を軽く払うと水っぽさが減ります。</li>
+            <li>油は基本少量で十分。ポテト、イカゲソ、砂肝は軽くスプレーすると食感が出ます。</li>
+            <li>タレや味噌漬けは焦げやすいので、温度を10℃下げるか途中から塗ります。</li>
+            <li>時間は機種差が出ます。肉と魚は下限から始めて1-2分ずつ追加、中心温度が最優先。</li>
+          </ul>
+        </details>
       </section>
 
-      <section class="notes">
-        <h2>共通メモ</h2>
-        <ul>
-          <li>食材は重ねすぎない。冷凍品は霜を軽く払うと水っぽさが減ります。</li>
-          <li>油は基本少量で十分。ポテト、イカゲソ、砂肝は軽くスプレーすると食感が出やすいです。</li>
-          <li>タレや味噌漬けは焦げやすいので、温度を10℃下げるか途中から塗ります。</li>
-          <li>肉と魚は厚みで変わります。中心温度に届かない場合は1から2分ずつ追加します。</li>
-        </ul>
-      </section>
-
-      <footer class="sources">
-        <p>
+      <footer class="site-foot">
+        <details data-store="shortcuts">
+          <summary>キーボード操作<span class="digest">/ 検索 ・ 1/2 タブ ・ Esc 解除</span></summary>
+          <ul class="keys">
+            <li><kbd>/</kbd> 検索欄へ移動</li>
+            <li><kbd>1</kbd> <kbd>2</kbd> タブ切替</li>
+            <li><kbd>⌘</kbd>+<kbd>←</kbd> <kbd>→</kbd> タブ移動</li>
+            <li><kbd>e</kbd> レシピを全部開く／閉じる</li>
+            <li><kbd>Esc</kbd> 検索クリア</li>
+          </ul>
+        </details>
+        <p class="sources">
           安全温度の根拠:
-          <a href="https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures" target="_blank" rel="noreferrer">
-            FoodSafety.gov
-          </a>
+          <a href="https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures" target="_blank" rel="noreferrer">FoodSafety.gov</a>
+          ／ 表示条件と開閉状態はこの端末に保存されます。
         </p>
       </footer>
     </main>
 
+    <!-- 早見表カード -->
     <template id="foodCardTemplate">
       <article class="food-card">
         <div class="card-head">
@@ -116,24 +144,16 @@
           <span class="state-pill"></span>
         </div>
         <div class="time-row">
-          <div>
-            <span>温度</span>
-            <strong class="temp"></strong>
-          </div>
-          <div>
-            <span>時間</span>
-            <strong class="time"></strong>
-          </div>
-          <div>
-            <span>途中</span>
-            <strong class="turn"></strong>
-          </div>
+          <div><span>温度</span><strong class="temp"></strong></div>
+          <div><span>時間</span><strong class="time"></strong></div>
+          <div><span>途中</span><strong class="turn"></strong></div>
         </div>
         <p class="finish"></p>
         <p class="tip"></p>
       </article>
     </template>
 
-    <script src="./app.js"></script>
+    <script src="./data.js?v=20260809"></script>
+    <script src="./app.js?v=20260809"></script>
   </body>
 </html>
