@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cooking-notes",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4185",
+        "--directory",
+        "/Users/ha_m/Desktop/260627遊びツール/cooking-notes"
+      ],
+      "port": 4185
+    }
+  ]
+}
